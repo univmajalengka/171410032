@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>input buku</title>
+	<title>input anggota</title>
 </head>
 <body>
 <form action="simpan_anggota.php" method="post">
