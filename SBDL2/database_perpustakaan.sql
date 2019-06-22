@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2019 at 04:42 AM
+-- Generation Time: Jun 22, 2019 at 12:36 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -40,6 +40,8 @@ CREATE TABLE `tabel_anggota` (
 --
 
 INSERT INTO `tabel_anggota` (`kd_anggota`, `nama`, `jk`, `alamat`) VALUES
+(1212, 'luki', 'laki', 'nanggewer'),
+(1234, 'kepin', 'laki', 'cirebon'),
 (2111, 'pipah', 'perempuan', 'bandung'),
 (2210, 'pipil', 'perempuan', 'bandung'),
 (2222, 'cibi', 'perempuan', 'bandung'),
@@ -79,7 +81,8 @@ INSERT INTO `tabel_buku` (`kd_buku`, `judul`, `pengarang`, `penerbit`, `tahun_te
 (9777, 'fisika', 'sopyan', 'erlangga', 2000),
 (9888, 'pancake coklat', 'cimi', 'gramedia', 2006),
 (9910, 'pencinta alam', 'burhan', 'gramedia', 1999),
-(9999, 'kompetisi tik', 'jordan', 'erlangga', 1999);
+(9999, 'kompetisi tik', 'jordan', 'erlangga', 1999),
+(71617, 'ayat cinta', 'abdul', 'gramedia', 2010);
 
 -- --------------------------------------------------------
 
@@ -113,7 +116,7 @@ INSERT INTO `tabel_kembali` (`kd_kembali`, `tgl_kembali`, `denda_per_hari`, `jml
 
 CREATE TABLE `tabel_petugas` (
   `kd_petugas` int(10) NOT NULL,
-  `nama` text NOT NULL,
+  `nama_petugas` text NOT NULL,
   `jabatan` text NOT NULL,
   `jk` varchar(15) NOT NULL,
   `jam_tugas` time NOT NULL,
@@ -125,7 +128,7 @@ CREATE TABLE `tabel_petugas` (
 -- Dumping data for table `tabel_petugas`
 --
 
-INSERT INTO `tabel_petugas` (`kd_petugas`, `nama`, `jabatan`, `jk`, `jam_tugas`, `telp`, `alamat`) VALUES
+INSERT INTO `tabel_petugas` (`kd_petugas`, `nama_petugas`, `jabatan`, `jk`, `jam_tugas`, `telp`, `alamat`) VALUES
 (910, 'pipih', 'keamanan', 'perempuan', '01:00:00', 876365736, 'bandung'),
 (911, 'hikmah', 'kasir', 'perempuan', '02:00:00', 876635733, 'cirebon'),
 (912, 'ihya', 'penjaga', 'laki', '03:00:00', 875672528, 'bandung'),
@@ -135,7 +138,8 @@ INSERT INTO `tabel_petugas` (`kd_petugas`, `nama`, `jabatan`, `jk`, `jam_tugas`,
 (916, 'momon', 'penjaga', 'laki', '03:00:00', 878736829, 'bandung'),
 (917, 'fika', 'sekertaris', 'perempuan', '02:00:00', 87635272, 'bandung'),
 (918, 'haykal', 'ketua', 'laki', '08:00:00', 86786533, 'bandung'),
-(919, 'ikah', 'wakil', 'perempuan', '10:00:00', 887376333, 'bandung');
+(919, 'ikah', 'wakil', 'perempuan', '10:00:00', 887376333, 'bandung'),
+(6571, 'anggun', 'sekertaris', 'perempuan', '00:00:00', 2147483647, 'cirebon');
 
 -- --------------------------------------------------------
 
@@ -195,6 +199,30 @@ INSERT INTO `tabel_rak` (`kd_rak`, `nama`, `kd_buku`) VALUES
 (4777, 'biologi', 9777),
 (4888, 'tik', 9888),
 (4999, 'matematika', 9999);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_pinjam`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_pinjam` (
+`kd_pinjam` int(6)
+,`judul` varchar(25)
+,`nama_petugas` text
+,`nama` varchar(20)
+,`tgl_pinjam` date
+,`tgl_kembali` date
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_pinjam`
+--
+DROP TABLE IF EXISTS `view_pinjam`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_pinjam`  AS  select `a`.`kd_pinjam` AS `kd_pinjam`,`b`.`judul` AS `judul`,`c`.`nama_petugas` AS `nama_petugas`,`d`.`nama` AS `nama`,`a`.`tgl_pinjam` AS `tgl_pinjam`,`a`.`tgl_kembali` AS `tgl_kembali` from (((`tabel_pinjam` `a` join `tabel_buku` `b` on((`b`.`kd_buku` = `a`.`kd_buku`))) join `tabel_petugas` `c` on((`c`.`kd_petugas` = `a`.`kd_petugas`))) join `tabel_anggota` `d` on((`d`.`kd_anggota` = `a`.`kd_anggota`))) ;
 
 --
 -- Indexes for dumped tables
